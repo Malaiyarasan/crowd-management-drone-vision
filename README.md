@@ -1,57 +1,81 @@
-# Crowd Management from Drone Footage (Computer Vision + CNN)
+# 🛩️ Crowd Management from Drone Footage (Computer Vision + CNN)
 
-This project uses **drone-based computer vision** to estimate crowd density from aerial images.  
-The goal is to support **safer crowd management** by detecting areas where people are densely packed.
+This project explores using **drone-based computer vision** to estimate
+crowd density from aerial views. The goal is to support safer crowd
+management by detecting zones that are too congested or unsafe.
 
 ---
 
 ## 🔍 Problem
 
-Crowd-related accidents often happen when a specific zone becomes **overcrowded** before anyone notices.  
-Drones provide a top-down view, enabling early detection of:
+Large gatherings (events, rallies, festivals) can become dangerous when
+crowd density gets too high in certain areas.
 
-- `low` – sparse / safe crowd  
-- `medium` – moderate / manageable density  
-- `high` – crowded / potentially unsafe  
+Drones provide a **high-angle top-down view**, which is perfect for analysing crowd distribution.
 
-This project builds a lightweight CNN to classify crowd density and generate a **heatmap** to highlight high-risk areas.
+This project uses a **CNN-based classifier** to label each frame as:
+
+- **low** → safe / sparse crowd  
+- **medium** → normal / manageable density  
+- **high** → potentially unsafe / overcrowded  
 
 ---
 
 ## 🧠 Approach
 
-### 1. Data Setup (Demo)
-A synthetic dataset is generated to simulate crowd levels:
+### 1️⃣ Data Setup (Conceptual)
+Images are organized as:
 
-data/crowd_demo/
+data/crowd/
 ├── low/
 ├── medium/
 └── high/
 
-Each folder contains artificially created crowd images.
+Each folder contains labeled aerial crowd images.
 
-### 2. Preprocessing
-- Images resized to 224×224  
-- Normalized to [0, 1]  
-- Augmentation using `ImageDataGenerator`  
+---
 
-### 3. Model
-A custom **CNN classifier** built using TensorFlow/Keras:
+### 2️⃣ Preprocessing
 
-- Convolution blocks  
-- MaxPooling layers  
-- Dense layers  
-- Softmax output for 3 classes  
+- Resize images (224 × 224)  
+- Normalize pixel values  
+- Batch loading using `ImageDataGenerator`
 
-### 4. Training
-- 10 epochs  
-- Categorical cross-entropy  
-- Accuracy monitored on validation split  
+---
 
-### 5. Extensions Included
-✔ Sliding-window **density heatmap**  
-✔ Region-based risk scoring  
-✔ Gradio demo for real-time testing
+### 3️⃣ Model Architecture
+
+A lightweight **Convolutional Neural Network (CNN)** designed to classify crowd levels.
+
+Layers include:
+
+- Conv2D  
+- MaxPooling  
+- Flatten  
+- Dense classifier with softmax output  
+
+---
+
+### 4️⃣ Training & Evaluation
+
+The model is trained on the 3 crowd categories and evaluated using:
+
+- Accuracy  
+- Precision  
+- Recall  
+- F1-score  
+
+---
+
+### 5️⃣ Extensions
+
+You can expand this into:
+
+- Drone live-feed real-time detection  
+- Heatmap overlay per region  
+- Warning system for unsafe zones  
+- Crowd-flow movement tracking  
+- Integration with government/public safety systems  
 
 ---
 
@@ -59,44 +83,75 @@ A custom **CNN classifier** built using TensorFlow/Keras:
 
 - Python  
 - TensorFlow / Keras  
-- OpenCV  
-- Gradio (interactive web UI)  
 - NumPy  
+- scikit-learn  
+- Google Colab  
+- Gradio (demo interface)
 
 ---
 
 ## 📁 Project Structure
 
-```text
 crowd-management-drone-vision/
 │
-├── notebooks/
-│   └── crowd_management_.ipynb     # Full training + demo notebook
+├── data/
+│ └── crowd/ # dataset root (placeholder)
+│
+├── src/
+│ └── train_crowd_cnn.py # CNN model training script
 │
 ├── model/
-│   └── crowd_cnn_demo.h5           # Trained CNN model
+│ └── crowd_cnn_demo.h5 # trained model (demo version)
 │
-├── data/
-│   └── crowd_demo/                 # Synthetic sample dataset
-│
-├── src/                            # (optional scripts)
-│
-└── README.md
+└── notebooks/
+└── crowd_management_.ipynb # full Colab notebook
+
 ---
 
-## 📘 Google Colab Notebook (Full Training + Demo)
+## 🔗 Google Colab Notebook (Training + Full Code)
 
-You can view or run the complete project in Google Colab using the link below:
+Click below to view/run the full project in Colab:
 
-🔗 **Open in Google Colab**  
+👉 **Open in Google Colab**  
 https://colab.research.google.com/github/Malaiyarasan/crowd-management-drone-vision/blob/main/notebooks/crowd_management_.ipynb
 
 This notebook includes:
 
-- Dataset loading  
-- Model creation (CNN)  
-- Training & validation  
-- Prediction demo  
-- Exporting `.h5` model file  
-- Instructions for real-world drone-based usage  
+- Dataset preparation  
+- CNN training  
+- Evaluation  
+- Sample predictions  
+- Exporting model `.h5`  
+- Code for real-world drone video usage  
+
+---
+
+## 🚀 Live Demo (Gradio)
+
+Try the model in your browser:
+
+🔗 **Live Demo:**  
+https://cd67d1e1d508e42c76.gradio.live
+
+Upload an image → model predicts **Low / Medium / High** crowd density.
+
+---
+
+## 📦 Model Download
+
+Download the trained demo model here:
+
+🔗 `crowd_cnn_demo.h5`  
+(Already included in `/model/` folder)
+
+---
+
+## 👤 Author
+
+**Malaiyarasan M**  
+AI Engineer – Applied Robotics & Computer Vision  
+
+---
+
+## ⭐ If this helped, give the repo a star! ⭐
 
