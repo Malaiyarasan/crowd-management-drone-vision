@@ -1,62 +1,67 @@
 # Crowd Management from Drone Footage (Computer Vision + CNN)
 
-This project explores using **drone-based computer vision** to estimate
-crowd density from aerial views. The goal is to support safer crowd
-management by detecting zones that are too congested.
+This project uses **drone-based computer vision** to estimate crowd density from aerial images.  
+The goal is to support **safer crowd management** by detecting areas where people are densely packed.
 
 ---
 
 ## 🔍 Problem
 
-Large gatherings (events, rallies, festivals) can become dangerous when
-crowd density gets too high in certain areas. Drones provide a top-down
-view that can be used to analyse how packed the crowd is.
+Crowd-related accidents often happen when a specific zone becomes **overcrowded** before anyone notices.  
+Drones provide a top-down view, enabling early detection of:
 
-This project uses a **CNN-based classifier** to label frames as:
+- `low` – sparse / safe crowd  
+- `medium` – moderate / manageable density  
+- `high` – crowded / potentially unsafe  
 
-- `low`   – safe / sparse crowd  
-- `medium` – normal / manageable crowd  
-- `high`  – potentially unsafe density  
+This project builds a lightweight CNN to classify crowd density and generate a **heatmap** to highlight high-risk areas.
 
 ---
 
 ## 🧠 Approach
 
-1. **Data Setup (Conceptual)**
-   - Aerial or elevated images of crowds organised into folders:
-     - `data/crowd/low/`
-     - `data/crowd/medium/`
-     - `data/crowd/high/`
-   - Each folder contains example frames or images captured from a drone
-     or similar elevated perspective.
+### 1. Data Setup (Demo)
+A synthetic dataset is generated to simulate crowd levels:
 
-2. **Preprocessing**
-   - Resize images to a fixed resolution (e.g., 224×224).
-   - Normalize pixel values to [0, 1].
+data/crowd_demo/
+├── low/
+├── medium/
+└── high/
 
-3. **Model**
-   - CNN classifier (either a small custom CNN or a transfer learning
-     backbone like MobileNetV2).
-   - Output layer: 3-class softmax (`low`, `medium`, `high`).
+Each folder contains artificially created crowd images.
 
-4. **Training & Evaluation**
-   - Train on labeled images from each density category.
-   - Evaluate using accuracy and classification report.
+### 2. Preprocessing
+- Images resized to 224×224  
+- Normalized to [0, 1]  
+- Augmentation using `ImageDataGenerator`  
 
-5. **Extension Ideas**
-   - Divide frame into grids and estimate density per region.
-   - Overlay heatmap for "risk zones".
-   - Run inference on live video feed from a drone.
+### 3. Model
+A custom **CNN classifier** built using TensorFlow/Keras:
+
+- Convolution blocks  
+- MaxPooling layers  
+- Dense layers  
+- Softmax output for 3 classes  
+
+### 4. Training
+- 10 epochs  
+- Categorical cross-entropy  
+- Accuracy monitored on validation split  
+
+### 5. Extensions Included
+✔ Sliding-window **density heatmap**  
+✔ Region-based risk scoring  
+✔ Gradio demo for real-time testing
 
 ---
 
 ## 🧰 Tech Stack
 
-- Python
-- TensorFlow / Keras
-- ImageDataGenerator (directory-based loading)
-- NumPy
-- scikit-learn (for metrics)
+- Python  
+- TensorFlow / Keras  
+- OpenCV  
+- Gradio (interactive web UI)  
+- NumPy  
 
 ---
 
@@ -65,13 +70,15 @@ This project uses a **CNN-based classifier** to label frames as:
 ```text
 crowd-management-drone-vision/
 │
-├── data/
-│   └── crowd/               # dataset root (placeholder)
-│       ├── low/
-│       ├── medium/
-│       └── high/
+├── notebooks/
+│   └── crowd_management_.ipynb     # Full training + demo notebook
 │
-├── src/
-│   └── train_crowd_cnn.py   # CNN training script
+├── model/
+│   └── crowd_cnn_demo.h5           # Trained CNN model
+│
+├── data/
+│   └── crowd_demo/                 # Synthetic sample dataset
+│
+├── src/                            # (optional scripts)
 │
 └── README.md
