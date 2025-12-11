@@ -82,3 +82,21 @@ crowd-management-drone-vision/
 ├── src/                            # (optional scripts)
 │
 └── README.md
+---
+
+## 📘 Google Colab Notebook (Full Training + Demo)
+
+You can view or run the complete project in Google Colab using the link below:
+
+🔗 **Open in Google Colab**  
+https://colab.research.google.com/github/Malaiyarasan/crowd-management-drone-vision/blob/main/notebooks/crowd_management_.ipynb
+
+This notebook includes:
+
+- Dataset loading  
+- Model creation (CNN)  
+- Training & validation  
+- Prediction demo  
+- Exporting `.h5` model file  
+- Instructions for real-world drone-based usage  
+
